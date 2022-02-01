@@ -94,18 +94,26 @@
       console.log(footer);
 
       let mainSection = document.querySelector("section");
-
       let newArticle = document.createElement("article");
-
+      //nyt H element
       let overskrift3 = document.createElement("h3");
-
+      //tekst til overkriften
       let overskriftText = document.createTextNode("Article 3");
-
+      //indsæt tekst i overskriften
       overskrift3.appendChild(overskriftText);
-
+      //tilføj overksrift til article
       newArticle.appendChild(overskrift3);
-
+      //tilføj article til section
       mainSection.appendChild(newArticle);
+
+      let paragraph = document.createElement("p");
+      let paragraphText = document.createTextNode("Dette er mere tekst");
+      paragraph.appendChild(paragraphText);
+      newArticle.appendChild(paragraph);
+      //nyt billede element
+      let pic = document.createElement("img");
+      pic.src = "https://placeimg.com/640/480/animals";
+      newArticle.appendChild(pic);
     </script>
   </body>
 </html>
