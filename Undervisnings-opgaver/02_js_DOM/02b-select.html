@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="html-struktur.css" />
+  </head>
+  <style>
+    section {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+      margin-left: 2%;
+    }
+    h3 {
+      margin-left: 2%;
+    }
+
+    article {
+    }
+
+    h1,
+    footer {
+      display: flex;
+      justify-content: center;
+    }
+  </style>
+  <body>
+    <main>
+      <h1>Øvelse</h1>
+      <h3>Undertitel</h3>
+      <section>
+        <article>
+          <img src="https://placeimg.com/640/480/any" />
+          <h4>Article 1</h4>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero
+            quaerat non sequi odio dignissimos commodi sint corrupti dolore
+            maxime in voluptas quos ab quasi, tempora ad totam repudiandae
+            aperiam nam. Lorem ipsum dolor sit amet consectetur adipisicing
+            elit. Vero quaerat non sequi odio dignissimos commodi sint corrupti
+            dolore maxime in voluptas quos ab quasi, tempora ad totam
+            repudiandae aperiam nam.
+          </p>
+        </article>
+        <article id="article_2">
+          <img src="https://placeimg.com/640/480/any" />
+          <h4>Article 2</h4>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero
+            quaerat non sequi odio dignissimos commodi sint corrupti dolore
+            maxime in voluptas quos ab quasi, tempora ad totam repudiandae
+            aperiam nam. Lorem ipsum dolor sit amet consectetur adipisicing
+            elit. Vero quaerat non sequi odio dignissimos commodi sint corrupti
+            dolore maxime in voluptas quos ab quasi, tempora ad totam
+            repudiandae aperiam nam.
+          </p>
+        </article>
+      </section>
+      <footer>This is the footer</footer>
+    </main>
+    <script>
+      const overskrift = document.querySelector("h1");
+      overskrift.textContent = "Adam";
+      console.log(overskrift);
+      const h3 = document.querySelector("h3");
+      console.log(h3);
+      const article = document.querySelector("article:nth-child(1)");
+      console.log(article);
+      const article2 = document.querySelector("article:nth-child(2)");
+      console.log(article2);
+      const article_img = document.querySelector("article:nth-child(1) img");
+      console.log(article_img);
+      const article2_img = document.querySelector("article:nth-child(2) img");
+      console.log(article2_img);
+      const article_h4 = document.querySelector("article:nth-child(1) h4");
+      article_h4.textContent = "Noget om en hund";
+      console.log(article_h4);
+      const article2_h4 = document.querySelector("article:nth-child(2) h4");
+      console.log(article2_h4);
+      article2_h4.textContent = "Noget om en hund";
+      const article_p = document.querySelector("article:nth-child(1) p");
+      article_p.textContent = "Dette er noget tekst til billedet";
+      console.log(article_p);
+      const article2_p = document.querySelector("article:nth-child(2) p");
+      article2_p.textContent = "Dette er noget tekst";
+      console.log(article2_p);
+      const footer = document.querySelector("footer");
+      console.log(footer);
+    </script>
+  </body>
+</html>
