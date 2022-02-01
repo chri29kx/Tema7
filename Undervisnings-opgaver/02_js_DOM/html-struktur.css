@@ -1,0 +1,9 @@
+section {
+  display: flex;
+}
+
+h1,
+footer {
+  display: flex;
+  justify-content: center;
+}
