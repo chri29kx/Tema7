@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      img {
+        max-width: 100%;
+      }
+      main {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      }
+      article {
+        border: solid 1px;
+        margin: 1rem;
+        padding: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <main></main>
+    <template>
+      <article>
+        <img src="" alt="" class="billede" />
+        <h2 class="navn"></h2>
+        <h3 class="efternavn"></h3>
+        <p class="email"></p>
+      </article>
+    </template>
+
+    <script>
+      const url = "https://tema7database-ac75.restdb.io/rest/medlemmer";
+      const main = document.querySelector("main");
+      const template = document.querySelector("template").content;
+
+      const options = {
+        headers: {
+          "x-apikey": "61fcf7e63f215f310a37be5f",
+        },
+      };
+
+      async function hentData() {
+        const resspons = await fetch(url, options);
+        const json = await resspons.json();
+        vis(json);
+      }
+
+      function vis(json) {
+        console.log(json);
+      }
+      hentData();
+
+      function vis(json) {
+        console.log(json);
+
+        json.forEach((person) => {
+          const klon = template.cloneNode(true);
+          klon.querySelector(".billede").src = "faces/" + person.billede;
+          klon.querySelector(".navn").textContent = person.fornavn;
+          klon.querySelector(".efternavn").textContent = person.efternavn;
+          klon.querySelector(".email").textContent = person.email;
+          main.appendChild(klon);
+        });
+      }
+    </script>
+  </body>
+</html>
