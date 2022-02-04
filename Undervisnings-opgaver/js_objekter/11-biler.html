@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      main {
+        display: flex;
+        gap: 120px;
+      }
+      article {
+        border: solid 1px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section id="liste"></section>
+
+      <template>
+        <article>
+          <h3 class="mærke"></h3>
+
+          <p class="model"></p>
+
+          <p class="motor"></p>
+
+          <p class="km"></p>
+
+          <ul class="udstyr"></ul>
+        </article>
+      </template>
+    </main>
+
+    <script>
+      "use strict";
+      const beholder = document.querySelector("main");
+      const skabelon = document.querySelector("template");
+      const fil = "alleBiler.json";
+
+      async function hentdata(fil) {
+        const resultat = await fetch("alleBiler.json");
+        const json = await resultat.json();
+        vis(json);
+      }
+
+      function vis(json) {
+        json.forEach((bil) => {
+          let klon = skabelon.cloneNode(true).content;
+
+          klon.querySelector(".mærke").innerHTML = bil.mærke;
+          klon.querySelector(".model").innerHTML = bil.model;
+          klon.querySelector(".motor").innerHTML = bil.motor;
+          klon.querySelector(".km").innerHTML = bil.km;
+
+          bil.udstyr.forEach((ekstra) => {
+            const li = document.createElement("li");
+
+            li.textContent = ekstra;
+
+            klon.querySelector(".udstyr").appendChild(li);
+          });
+
+          beholder.appendChild(klon);
+        });
+      }
+      hentdata(fil);
+    </script>
+  </body>
+</html>
