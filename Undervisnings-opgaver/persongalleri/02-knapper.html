@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      img {
+        max-width: 100%;
+      }
+      main {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      }
+      article {
+        border: solid 1px;
+        margin: 1rem;
+        padding: 1rem;
+      }
+      .valgt {
+        background-color: aqua;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Alle</h1>
+    <nav>
+      <button data-troende="alle" class="valgt">Alle</button>
+      <button data-troende="ja">Troende</button>
+      <button data-troende="nej">Ikke troende</button>
+      <button data-troende="tvivler">Tvivler</button>
+    </nav>
+    <main></main>
+    <template>
+      <article>
+        <img src="" alt="" class="billede" />
+        <h2 class="navn"></h2>
+        <h3 class="efternavn"></h3>
+        <p class="titel"></p>
+        <p class="fødselsdag"></p>
+        <p class="hobby"></p>
+        <p class="troende"></p>
+      </article>
+    </template>
+
+    <script>
+      const url = "https://persongalleri-5d3e.restdb.io/rest/persongalleri";
+      const main = document.querySelector("main");
+      const template = document.querySelector("template").content;
+      const header = document.querySelector("h1");
+      const options = {
+        headers: {
+          "x-apikey": "600fe9211346a1524ff12e31",
+        },
+      };
+      let personer;
+      let filter = "alle";
+      const filtrerKnapper = document.querySelectorAll("nav button");
+      filtrerKnapper.forEach((knap) =>
+        knap.addEventListener("click", filtrerPersoner)
+      );
+
+      function filtrerPersoner() {
+        filter = this.dataset.troende;
+        document.querySelector(".valgt").classList.remove("valgt");
+        this.classList.add("valgt");
+
+        vis();
+        header.textContent = this.textContent;
+      }
+
+      async function hentData() {
+        const resspons = await fetch(url, options);
+        personer = await resspons.json();
+        vis();
+      }
+
+      function vis(json) {
+        console.log(json);
+      }
+      hentData();
+
+      function vis() {
+        const dest = document.querySelector("main");
+        const skabelon = document.querySelector("template").content;
+        dest.textContent = "";
+        personer.forEach((person) => {
+          console.log("Troende", person.troende);
+
+          if (filter == person.troende || filter == "alle") {
+            const klon = template.cloneNode(true);
+            klon.querySelector(".billede").src = "faces/" + person.billede;
+            klon.querySelector(".navn").textContent = person.fornavn;
+            klon.querySelector(".efternavn").textContent = person.efternavn;
+            klon.querySelector(".troende").textContent = person.troende;
+            main.appendChild(klon);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

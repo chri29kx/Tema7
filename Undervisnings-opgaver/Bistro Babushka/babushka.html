@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Babushka</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      img {
+        max-width: 100%;
+      }
+
+      nav,
+      h1 {
+        display: flex;
+        justify-content: center;
+        gap: 50px;
+      }
+      main {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      }
+      article {
+        border: solid 1px;
+        margin: 1rem;
+        padding: 1rem;
+      }
+      .valgt {
+        background-color: aqua;
+      }
+
+      #modal {
+        display: none;
+        width: 100vvw;
+        height: 100vh;
+        left: 23%;
+        top: 0;
+        position: fixed;
+        background-color: rgba(0, 0, 0, 0.226);
+      }
+
+      #modal article {
+        /* max-width: 900px; */
+        width: 80vw;
+        height: 100vh;
+        margin: 4em auto;
+        background-color: aliceblue;
+        display: flex;
+        align-items: center;
+        padding: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- <img class="banner" src="banner.jpg" alt="babushka" /> -->
+    <h1>Alle</h1>
+    <nav>
+      <button data-kategori="alle" class="valgt">Alle</button>
+      <button data-kategori="forretter">Forretter</button>
+      <button data-kategori="hovedretter">Hovedretter</button>
+      <button data-kategori="desserter">Desserter</button>
+      <button data-kategori="drikkevarer">Drikkevarer</button>
+    </nav>
+
+    <aside>
+      <article id="modal">
+        <img src="" alt="" class="billede" />
+        <h2 class="navn"></h2>
+        <h3 class="pris"></h3>
+        <p class="beskrivelse"></p>
+      </article>
+    </aside>
+
+    <main></main>
+    <template>
+      <article>
+        <img src="" alt="" class="billede" />
+        <h2 class="navn"></h2>
+        <p class="beskrivelse"></p>
+        <p class="pris"></p>
+      </article>
+    </template>
+
+    <script>
+      const url = "https://babushka-dd8a.restdb.io/rest/menu";
+      const main = document.querySelector("main");
+      const template = document.querySelector("template").content;
+      const modal = document.querySelector("#modal");
+      const header = document.querySelector("h1");
+      const options = {
+        headers: {
+          "x-apikey": "600ec2fb1346a1524ff12de4",
+        },
+      };
+
+      let retter;
+      let filter = "alle";
+      const filtrerKnapper = document.querySelectorAll("nav button");
+      filtrerKnapper.forEach((knap) =>
+        knap.addEventListener("click", filtrerRetter)
+      );
+
+      function filtrerRetter() {
+        filter = this.dataset.kategori;
+        document.querySelector(".valgt").classList.remove("valgt");
+        this.classList.add("valgt");
+
+        vis();
+        header.textContent = this.textContent;
+      }
+
+      async function hentData() {
+        const resspons = await fetch(url, options);
+        retter = await resspons.json();
+        vis();
+        console.log();
+      }
+
+      function vis(json) {
+        console.log(json);
+      }
+      hentData();
+
+      function vis() {
+        const dest = document.querySelector("main");
+        const skabelon = document.querySelector("template").content;
+        dest.textContent = "";
+        retter.forEach((retter) => {
+          if (filter == retter.kategori || filter == "alle") {
+            const klon = template.cloneNode(true);
+            klon.querySelector(
+              ".billede"
+            ).src = `medium/${retter.billednavn}-md.jpg`;
+            klon.querySelector(".navn").textContent = retter.navn;
+
+            klon
+              .querySelector("article")
+              .addEventListener("click", () => visModal(retter));
+            klon.querySelector(".beskrivelse").textContent =
+              retter.kortbeskrivelse;
+            klon.querySelector(".pris").textContent =
+              "Pris: " + retter.pris + ",-";
+            main.appendChild(klon);
+          }
+        });
+      }
+
+      function visModal(retter) {
+        console.log(retter);
+        modal.querySelector("h2").textContent = retter.navn;
+        modal.querySelector(
+          ".billede"
+        ).src = `medium/${retter.billednavn}-md.jpg`;
+        modal.style.display = "block";
+        // main.style.display = "none";
+      }
+
+      modal.addEventListener("click", () => (modal.style.display = "none"));
+      modal.addEventListener("click", () => (main.style.display = "grid"));
+    </script>
+  </body>
+</html>
